@@ -2,12 +2,13 @@
 
 envelopeGenerator::envelopeGenerator()
 {
-
+  frameCounter=0;
 }
 
 void envelopeGenerator::initEnvelope(unsigned short int* points, unsigned short int* ticks, byte numberOfPoints)
 {
   //Init Envelops in memory
+  frameCounter = 0;
   numberOfEnvelopPoints = numberOfPoints;
   envelopePoints = new float*[numberOfEnvelopPoints];
   for(_counter=0; _counter<numberOfEnvelopPoints; _counter++)
@@ -87,4 +88,12 @@ unsigned short int envelopeGenerator::getEnvelope(unsigned short int tickCounter
       return envelopePoints[_envelopeIndex][0] + abs(_blockGradient);
     }
   }
+}
+void envelopeGenerator::nextFrame(unsigned short int tick)
+{
+  frameCounter = (frameCounter+tick)%envelopeBandwidth;
+}
+void envelopeGenerator::prevFrame(unsigned short int tick)
+{
+  frameCounter = (frameCounter-tick)%envelopeBandwidth;
 }
