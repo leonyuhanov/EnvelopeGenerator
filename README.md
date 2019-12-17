@@ -21,8 +21,8 @@ Generates dynamic envelopes with N positive integer points
   ```C++
   while(true)
   {
-   System.printf("\r\n%d", envelopeOne.getEnvelope(frameCounter));
-   frameCounter = (frameCounter+1)%envelopeOne.envelopeBandwidth;
+   Serial.printf("\r\n%d", envelopeOne.getEnvelope(envelopeOne.frameCounter));
+   envelopeOne.nextFrame(1);
   }
   ```
   The above generates this:
