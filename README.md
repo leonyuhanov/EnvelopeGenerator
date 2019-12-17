@@ -10,13 +10,12 @@ Generates dynamic envelopes with N positive integer points
   ```C++
   envelopeGenerator envelopeOne;
   const byte numberOfPoints = 4;
-  unsigned short int frameCounter=0;
   unsigned short int points[numberOfPoints] = {0,10,20,5};
   unsigned short int ticks[numberOfPoints] = {30, 30, 30, 30};
   envelopeOne.initEnvelope(points, ticks, numberOfPoints);
   ```
 * unsigned short int getEnvelope(unsigned short int frameCounter)
-  * Generates your curve based on your point list and time blocks using "frameCounter" as the time index
+  * Generates your curve based on your point list and time blocks using "frameCounter" (internal variable) as the time index
   * "envelopeOne.envelopeBandwidth" can be used to limit your frame counter and keep it in bounds of your dynamic frame ticks
   ```C++
   while(true)
