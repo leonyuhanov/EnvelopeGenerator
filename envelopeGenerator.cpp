@@ -50,17 +50,20 @@ void envelopeGenerator::initEnvelope(unsigned short int* points, unsigned short 
 }
 unsigned short int envelopeGenerator::getEnvelope()
 {
+	unsigned short int returnValue=0;
 	if(oneShot==0)
 	{
+		returnValue = getEnvelope(frameCounter);
 		nextFrame(increment);
-		return getEnvelope(frameCounter);
+		return returnValue;
 	}
 	else
 	{
 		if(frameCounter+increment<envelopeBandwidthOneShot)
 		{
+			returnValue = getEnvelope(frameCounter);
 			nextFrame(increment);
-			return getEnvelope(frameCounter);
+			return returnValue;
 		}
 		else
 		{
