@@ -12,7 +12,7 @@ Generates dynamic envelopes with N positive integer points
   const byte numberOfPoints = 4;
   unsigned short int points[numberOfPoints] = {0,10,20,5};
   unsigned short int ticks[numberOfPoints] = {30, 30, 30, 30};
-  envelopeOne.initEnvelope(points, ticks, numberOfPoints);
+  envelopeOne.initEnvelope(points, ticks, numberOfPoints, 0);
   ```
 * unsigned short int getEnvelope(unsigned short int frameCounter)
   * Generates your curve based on your point list and time blocks using "frameCounter" (internal variable) as the time index
@@ -27,3 +27,21 @@ Generates dynamic envelopes with N positive integer points
   The above generates this:
  
   <img src="https://github.com/leonyuhanov/EnvelopeGenerator/blob/master/envelopOutput.jpg" width="300" />
+
+# OneShot Envelopes
+
+Set up
+
+```C++
+  envelopeGenerator envelopeOne;
+  const byte numberOfPoints = 2;
+  unsigned short int points[numberOfPoints] = {0,10};
+  unsigned short int ticks[numberOfPoints] = {30, 30};
+  envelopeOne.initEnvelope(points, ticks, numberOfPoints, 1);
+
+while(true)
+  {
+   Serial.printf("\r\n%d", envelopeOne.getEnvelope());
+   delay(100);
+  }
+  ```
