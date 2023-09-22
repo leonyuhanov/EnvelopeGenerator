@@ -3,6 +3,7 @@
 
 envelopeGenerator envel_Object;
 const byte numberOfPoints = 4;
+const byte oneShot = 0;
 unsigned short int points[numberOfPoints] = {0,100,50,100};
 unsigned short int ticks[numberOfPoints] = {100, 100, 200, 50};
 
@@ -11,7 +12,7 @@ void setup()
 {
   Serial.begin(115200);
   WiFi.mode(WIFI_OFF);
-  envel_Object.initEnvelope(points, ticks, numberOfPoints);
+  envel_Object.initEnvelope(points, ticks, numberOfPoints, oneShot);
 }
 
 void loop()
