@@ -3,12 +3,19 @@
 envelopeGenerator::envelopeGenerator()
 {
   frameCounter=0;
+  oneShot=0;
 }
 
-void envelopeGenerator::initEnvelope(unsigned short int* points, unsigned short int* ticks, byte numberOfPoints)
+envelopeGenerator::envelopeGenerator(unsigned short int* points, unsigned short int* ticks, byte numberOfPoints, byte isOneShot)
+{
+  initEnvelope(points, ticks, numberOfPoints, isOneShot);
+}
+
+void envelopeGenerator::initEnvelope(unsigned short int* points, unsigned short int* ticks, byte numberOfPoints, byte isOneShot)
 {
   //Init Envelops in memory
   frameCounter = 0;
+  oneShot = isOneShot;
   numberOfEnvelopPoints = numberOfPoints;
   envelopePoints = new float*[numberOfEnvelopPoints];
   for(_counter=0; _counter<numberOfEnvelopPoints; _counter++)
@@ -17,6 +24,7 @@ void envelopeGenerator::initEnvelope(unsigned short int* points, unsigned short 
   }
   _envelopeIndex=0;
   envelopeBandwidth=0;
+  envelopeBandwidthOneShot=0;
   
   //set up Envelope Points
   for(_counter=0; _counter<numberOfEnvelopPoints; _counter++)
@@ -32,9 +40,34 @@ void envelopeGenerator::initEnvelope(unsigned short int* points, unsigned short 
     }
     envelopePoints[_counter][2] = ticks[_counter];
     envelopeBandwidth += ticks[_counter];
+    if(_counter+1<numberOfEnvelopPoints)
+    {
+      envelopeBandwidthOneShot += ticks[_counter];
+    }
   }
   //Reset the ticker to 0
   _envelopeIndex = 0;
+}
+unsigned short int envelopeGenerator::getEnvelope()
+{
+	if(oneShot==0)
+	{
+		nextFrame(increment);
+		return getEnvelope(frameCounter);
+	}
+	else
+	{
+		if(frameCounter+increment<envelopeBandwidthOneShot)
+		{
+			nextFrame(increment);
+			return getEnvelope(frameCounter);
+		}
+		else
+		{
+			frameCounter=0;
+			return getEnvelope(frameCounter);
+		}
+	}
 }
 
 unsigned short int envelopeGenerator::getEnvelope(unsigned short int tickCounter)
@@ -89,10 +122,17 @@ unsigned short int envelopeGenerator::getEnvelope(unsigned short int tickCounter
     }
   }
 }
+
+float envelopeGenerator::getEnvelopePercent(unsigned short int tickCounter, unsigned short int divident)
+{
+  return ((float)getEnvelope(tickCounter))/divident;
+}
+
 void envelopeGenerator::nextFrame(unsigned short int tick)
 {
   frameCounter = (frameCounter+tick)%envelopeBandwidth;
 }
+
 void envelopeGenerator::prevFrame(unsigned short int tick)
 {
   frameCounter = (frameCounter-tick)%envelopeBandwidth;
