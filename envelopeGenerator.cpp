@@ -48,6 +48,7 @@ void envelopeGenerator::initEnvelope(unsigned short int* points, unsigned short 
   //Reset the ticker to 0
   _envelopeIndex = 0;
 }
+
 unsigned short int envelopeGenerator::getEnvelope()
 {
 	unsigned short int returnValue=0;
@@ -67,10 +68,15 @@ unsigned short int envelopeGenerator::getEnvelope()
 		}
 		else
 		{
-			frameCounter=0;
+			//frameCounter=0;
 			return getEnvelope(frameCounter);
 		}
 	}
+}
+
+void envelopeGenerator::reset()
+{
+  frameCounter=0;
 }
 
 unsigned short int envelopeGenerator::getEnvelope(unsigned short int tickCounter)
