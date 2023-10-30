@@ -49,6 +49,44 @@ void envelopeGenerator::initEnvelope(unsigned short int* points, unsigned short 
   _envelopeIndex = 0;
 }
 
+void envelopeGenerator::reInitEnvelope(unsigned short int* points, unsigned short int* ticks, byte numberOfPoints, byte isOneShot)
+{
+  //Init Envelops in memory
+  frameCounter = 0;
+  oneShot = isOneShot;
+  numberOfEnvelopPoints = numberOfPoints;
+  //envelopePoints = new float*[numberOfEnvelopPoints];
+  //for(_counter=0; _counter<numberOfEnvelopPoints; _counter++)
+  //{
+  //  envelopePoints[_counter] = new float[3];
+  //}
+  _envelopeIndex=0;
+  envelopeBandwidth=0;
+  envelopeBandwidthOneShot=0;
+  
+  //set up Envelope Points
+  for(_counter=0; _counter<numberOfEnvelopPoints; _counter++)
+  {
+    envelopePoints[_counter][0] = points[_counter];
+    if(_counter+1==numberOfEnvelopPoints)
+    {
+      envelopePoints[_counter][1] = points[0];
+    }
+    else
+    {
+      envelopePoints[_counter][1] = points[_counter+1];
+    }
+    envelopePoints[_counter][2] = ticks[_counter];
+    envelopeBandwidth += ticks[_counter];
+    if(_counter+1<numberOfEnvelopPoints)
+    {
+      envelopeBandwidthOneShot += ticks[_counter];
+    }
+  }
+  //Reset the ticker to 0
+  _envelopeIndex = 0;
+}
+
 unsigned short int envelopeGenerator::getEnvelope()
 {
 	unsigned short int returnValue=0;

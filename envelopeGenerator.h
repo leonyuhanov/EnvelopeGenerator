@@ -8,6 +8,7 @@ class envelopeGenerator
     envelopeGenerator();
     envelopeGenerator(unsigned short int* points, unsigned short int* ticks, byte numberOfPoints, byte isOneShot);
     void initEnvelope(unsigned short int* points, unsigned short int* ticks, byte numberOfPoints, byte isOneShot); 
+    void reInitEnvelope(unsigned short int* points, unsigned short int* ticks, byte numberOfPoints, byte isOneShot); 
     unsigned short int getEnvelope(unsigned short int tickCounter);
 	  unsigned short int getEnvelope();
     void reset();
